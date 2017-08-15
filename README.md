@@ -29,6 +29,10 @@ ttnlora_env_vars.js > variables used by the variouse js scripts (MUST EDIT)
 
 ttnlora_env_vars.php > variables used by the variouse php scripts (MUST EDIT)
 
+httpintegration_example.png > example how to configure ttn http integration
+
+payloadfunction.txt > payload function example used by this system (modify js to reflect your payload)
+
 
 Installation steps : 
 
