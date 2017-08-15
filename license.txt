@@ -1,0 +1,6 @@
+"PH2LB LICENSE" (Revision 1) : (based on "THE BEER-WARE LICENSE" Rev 42) 
+<lex@ph2lb.nl> wrote this file. As long as you retain this notice
+you can do modify it as you please. It's Free for non commercial usage 
+and education and if we meet some day, and you think this stuff is 
+worth it, you can buy me a beer in return
+Lex Bolkesteijn 
