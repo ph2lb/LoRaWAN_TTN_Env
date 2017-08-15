@@ -1,0 +1,41 @@
+// example payload function.
+
+function Decoder(bytes, port) 
+{
+  var retValue =   { 
+    bytes: bytes
+  };
+  
+  
+  retValue.batt = bytes[0] / 10.0;
+  if (retValue.batt === 0)
+     delete retValue.batt; 
+ 
+  if (bytes.length >= 2)
+  {
+    retValue.humidity = bytes[1];
+    if (retValue.humidity === 0)
+      delete retValue.humidity; 
+  } 
+  if (bytes.length >= 3)
+  {
+    retValue.temperature = (((bytes[2] << 8) | bytes[3]) / 10.0) - 40.0;
+  } 
+  if (bytes.length >= 5)
+  { 
+    retValue.pressure = ((bytes[4] << 8) | bytes[5]); 
+    if (retValue.pressure === 0)
+      delete retValue.pressure; 
+  }
+   
+  return retValue;
+   
+  // Decoder  
+  return {
+    batt: batt, 
+    humidity: humidity,
+    temperature: temperature,
+    pressure: pressure,
+    bytes: bytes
+  };
+}
