@@ -18,9 +18,9 @@ if(isset($_GET['area'])) {
 
 $first = true;
 if ($filter_area != null && $filter_area != 'all') {
-$sql = "SELECT m1.DevID AS Code, m1.TimestampUTC AS Time, m1.RSSI AS Rssi, m1.Temperature AS Temp, m1.Humidity AS Humidity, m1.Pressure AS Pressure, m1.Batt AS Batt, n.Latitude AS Latitude, n.Longitude AS Longitude, na.AeraID as Area FROM Measurement m1 INNER JOIN (SELECT mi.DevID as DevID, MAX(mi.TimestampUTC) AS maxtimestamp FROM Measurement mi GROUP BY mi.DevID) m2 ON (m1.TimestampUTC = m2.maxtimestamp AND m1.DevID = m2.DevID) INNER JOIN Node n ON n.DevID = m1.DevID INNER JOIN NodeArea na ON m1.DevID = na.DevID WHERE na.AeraID = '" . $filter_area . "'";
+$sql = "SELECT m1.DevID AS Code, m1.TimestampUTC AS Time, m1.RSSI AS Rssi, m1.Temperature AS Temp, m1.Humidity AS Humidity, m1.Pressure AS Pressure, m1.Batt AS Batt, n.Latitude AS Latitude, n.Longitude AS Longitude, na.AeraID as Area, n.Description AS Description FROM Measurement m1 INNER JOIN (SELECT mi.DevID as DevID, MAX(mi.TimestampUTC) AS maxtimestamp FROM Measurement mi GROUP BY mi.DevID) m2 ON (m1.TimestampUTC = m2.maxtimestamp AND m1.DevID = m2.DevID) INNER JOIN Node n ON n.DevID = m1.DevID INNER JOIN NodeArea na ON m1.DevID = na.DevID WHERE na.AeraID = '" . $filter_area . "'";
 } else {
-$sql = "SELECT m1.DevID AS Code, m1.TimestampUTC AS Time, m1.RSSI AS Rssi, m1.Temperature AS Temp, m1.Humidity AS Humidity, m1.Pressure AS Pressure, m1.Batt AS Batt, n.Latitude AS Latitude, n.Longitude AS Longitude, na.AeraID as Area FROM Measurement m1 INNER JOIN (SELECT mi.DevID as DevID, MAX(mi.TimestampUTC) AS maxtimestamp FROM Measurement mi GROUP BY mi.DevID) m2 ON (m1.TimestampUTC = m2.maxtimestamp AND m1.DevID = m2.DevID) INNER JOIN Node n ON n.DevID = m1.DevID INNER JOIN NodeArea na ON m1.DevID = na.DevID";
+$sql = "SELECT m1.DevID AS Code, m1.TimestampUTC AS Time, m1.RSSI AS Rssi, m1.Temperature AS Temp, m1.Humidity AS Humidity, m1.Pressure AS Pressure, m1.Batt AS Batt, n.Latitude AS Latitude, n.Longitude AS Longitude, na.AeraID as Area , n.Description AS Description FROM Measurement m1 INNER JOIN (SELECT mi.DevID as DevID, MAX(mi.TimestampUTC) AS maxtimestamp FROM Measurement mi GROUP BY mi.DevID) m2 ON (m1.TimestampUTC = m2.maxtimestamp AND m1.DevID = m2.DevID) INNER JOIN Node n ON n.DevID = m1.DevID INNER JOIN NodeArea na ON m1.DevID = na.DevID";
 }
 
 //echo "// filter_area = ". $filter_area;
@@ -53,8 +53,9 @@ if ($result->num_rows > 0) {
 	$lat = $row["Latitude"];
 	$lng = $row["Longitude"];
 	$area = $row["Area"];
+	$description = $row["Description"];
 
-	$value = "['$code','$time','$rssi','$lat','$lng', '$temp', '$humidity', '$pressure', '$batt', '$area']";
+	$value = "['$code','$time','$rssi','$lat','$lng', '$temp', '$humidity', '$pressure', '$batt', '$area', '$description']";
         echo "    $value";
     }
 } 

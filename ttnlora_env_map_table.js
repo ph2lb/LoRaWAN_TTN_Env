@@ -6,7 +6,7 @@ var tr, td, th;
 
 tr = document.createElement("tr");
 table.appendChild(tr);
-var columns = ['DevUID', 'Area', 'Date', 'Temp', 'Humidity', 'Pressure', 'Voltage', 'RSSI'];
+var columns = ['DevUID', 'Area', 'Date', 'Temp', 'Humidity', 'Pressure', 'Voltage', 'RSSI', 'Description'];
 for(j=0; j<columns.length; j++)
 {
 	th = document.createElement('th');
@@ -34,7 +34,7 @@ for (i = 0; i < lastmeasurment.length; i++)
 		// Date
     		td = document.createElement("td");
 		var date = new Date(lastmeasurment[i][1]);
-    		td.innerHTML = date.toTimeString() + ' ' + date.toDateString();
+    		td.innerHTML = date.toDateString() + ' ' + date.toTimeString();
     		tr.appendChild(td);
 
 		// Temp
@@ -69,6 +69,11 @@ for (i = 0; i < lastmeasurment.length; i++)
 		// RSSI
     		td = document.createElement("td");
     		td.innerHTML = lastmeasurment[i][2];
+    		tr.appendChild(td);
+	
+		// Description
+    		td = document.createElement("td");
+    		td.innerHTML = lastmeasurment[i][10];
     		tr.appendChild(td);
 	
 	}
