@@ -47,15 +47,15 @@ function hslToRgb(h, s, l) {
     var mapLat = 0.0;
     var mapLon = 0.0;
 
-    //console.log(lastlocations.length);
+    //console.log(lastmeasurment.length);
 
     var locationcounter = 0;
-    for (i = 0; i < lastlocations.length; i++) 
+    for (i = 0; i < lastmeasurment.length; i++) 
     { 
-	if (lastlocations[i][3] != '0' && lastlocations[i][4] != '0')
+	if (lastmeasurment[i][3] != '0' && lastmeasurment[i][4] != '0')
 	{
-        	mapLat += parseFloat(lastlocations[i][3]);
-		mapLon += parseFloat(lastlocations[i][4]);
+        	mapLat += parseFloat(lastmeasurment[i][3]);
+		mapLon += parseFloat(lastmeasurment[i][4]);
 		locationcounter++;
 	}	
     }
@@ -83,11 +83,11 @@ function hslToRgb(h, s, l) {
     var flightPlanCoordinates = [];
     var bounds = new google.maps.LatLngBounds();
 
-    for (i = 0; i < lastlocations.length; i++) 
+    for (i = 0; i < lastmeasurment.length; i++) 
     {  
-	if (lastlocations[i][3] != '0' && lastlocations[i][4] != '0')
+	if (lastmeasurment[i][3] != '0' && lastmeasurment[i][4] != '0')
 	{
-		var temp = parseInt(lastlocations[i][5]);
+		var temp = parseInt(lastmeasurment[i][5]);
     		//console.log("temp = " + temp);
 		var colortemp = (1 / 50) * (temp + 15);	
     		//console.log("colortemp = " + colortemp);
@@ -97,9 +97,9 @@ function hslToRgb(h, s, l) {
     		//console.log("color = " + color);
 		var iconurl = 'http://www.googlemapsmarkers.com/v1/' + temp + '/' + color + '/';	
       		marker = new google.maps.Marker({
-        		position: new google.maps.LatLng(lastlocations[i][3], lastlocations[i][4]),
+        		position: new google.maps.LatLng(lastmeasurment[i][3], lastmeasurment[i][4]),
 			icon: iconurl,
-			//label: (lastlocations[i][0]),
+			//label: (lastmeasurment[i][0]),
         		map: map,
       		});
 		bounds.extend(marker.position);
@@ -107,16 +107,16 @@ function hslToRgb(h, s, l) {
 
       		google.maps.event.addListener(marker, 'click', (function(marker, i) {
         		return function() {
-          		var date = new Date(lastlocations[i][1]);
+          		var date = new Date(lastmeasurment[i][1]);
           		infowindow.setContent('<div><strong>' + 
-				'DevUID : ' + lastlocations[i][0] + '<br/> ' +
+				'DevUID : ' + lastmeasurment[i][0] + '<br/> ' +
 				date.toTimeString() + ' ' + date.toDateString() + '<br/> ' +
-				'RSSI : ' + lastlocations[i][2]+ '<br/> ' +
-				' Temp : ' + lastlocations[i][5]+ ' C<br/> ' +
-				' Humidity : ' + lastlocations[i][6]+ ' %<br/> ' +
-				' Pressure : ' + lastlocations[i][7]+ ' mBar<br/> ' +
-				' Voltage : ' + lastlocations[i][8]+ ' V<br/>' + 
-			        '<a href="./ttnlora_env_chart.php?id=' + lastlocations[i][0] + '">chart link</a><br/>' +
+				'RSSI : ' + lastmeasurment[i][2]+ '<br/> ' +
+				' Temp : ' + lastmeasurment[i][5]+ ' C<br/> ' +
+				' Humidity : ' + lastmeasurment[i][6]+ ' %<br/> ' +
+				' Pressure : ' + lastmeasurment[i][7]+ ' mBar<br/> ' +
+				' Voltage : ' + lastmeasurment[i][8]+ ' V<br/>' + 
+			        '<a href="./ttnlora_env_chart.php?id=' + lastmeasurment[i][0] + '">chart link</a><br/>' +
 				'</strong></div>');
           	infowindow.open(map, marker);
         	}
