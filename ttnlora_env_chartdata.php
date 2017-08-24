@@ -10,22 +10,44 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$filter_id = $_GET["id"];
-$filter_from = $_GET["from"];
-$filter_to = $_GET["to"];
+$filter_id = NULL;
+$filter_from = NULL;
+$filter_to = NULL;
 
-$filter_id = $conn->real_escape_string($filter_id);
-$filter_from = $conn->real_escape_string($filter_from);
-$filter_to = $conn->real_escape_string($filter_to);
+if (isset($_GET["id"])) 
+{
+	$filter_id = $_GET["id"];
+	$filter_id = $conn->real_escape_string($filter_id);
+}
 
-// hardcoded overrule
-//$filter_id = '0004a30b001ad790';
-$filter_to = new DateTime();
-$dt = new DateTime();
-$dt->modify("-1 day");
-$filter_from = $dt;
-$filter_to = $filter_to->format("Y-m-d H:i:s");
-$filter_from = $filter_from->format("Y-m-d H:i:s");
+if (isset($_GET["to"])) 
+{
+	$filter_to = $_GET["to"];
+	$filter_to = $conn->real_escape_string($filter_to);
+}
+else 
+{
+	$filter_to = new DateTime();
+	$filter_to = $filter_to->format("Y-m-d H:i:s");
+}
+
+if (isset($_GET["from"])) 
+{
+	$filter_from = $_GET["from"];
+	$filter_from = $conn->real_escape_string($filter_from);
+}
+else
+{
+	$dt = new DateTime();
+	$dt->modify("-1 day");
+	$filter_from = $dt;
+	$filter_from = $filter_from->format("Y-m-d H:i:s");
+}
+
+// debug
+//echo "// $filter_id \n";
+//echo "// $filter_from \n";
+//echo "// $filter_to \n";
 
 echo "[\n";
 

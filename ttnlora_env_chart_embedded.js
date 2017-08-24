@@ -1,7 +1,8 @@
 // https://www.amcharts.com/kbase/dynamically-loading-chart-datasets/
 console.log("chart start");
 
-var dataurl = "ttnlora_env_chartdata.php?id=" + filter_id;
+//var dataurl = "ttnlora_env_chartdata.php?id=" + filter_id;
+var dataurl = "ttnlora_env_chartdata.php?id=" + filter_id + "&from=" + filter_from + "&to=" + filter_to;
 
 var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
@@ -166,6 +167,7 @@ var chart = AmCharts.makeChart("chartdiv", {
 	"labelFrequency": 10,
         "dashLength": 1,
         "minorGridEnabled": true
+	//,"labelFunction": function(valueText, date, categoryAxis) { return date.toLocaleDateString() + ' ' + date.toLocaleTimeString(); }
     }
 	//, "export": { "enabled": true }
 });

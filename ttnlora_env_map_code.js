@@ -83,6 +83,9 @@ function hslToRgb(h, s, l) {
     var flightPlanCoordinates = [];
     var bounds = new google.maps.LatLngBounds();
 
+    var d = new Date();
+    var offset = d.getTimezoneOffset();
+
     for (i = 0; i < lastmeasurment.length; i++) 
     {  
 	if (lastmeasurment[i][3] != '0' && lastmeasurment[i][4] != '0')
@@ -107,10 +110,11 @@ function hslToRgb(h, s, l) {
 
       		google.maps.event.addListener(marker, 'click', (function(marker, i) {
         		return function() {
-          		var date = new Date(lastmeasurment[i][1]);
+          		var date = new Date(lastmeasurment[i][1]);	// UTC
+			date.setSeconds(date.getSeconds() + offset*-60);	// UTC > Local
           		infowindow.setContent('<div><strong>' + 
 				'DevUID : ' + lastmeasurment[i][0] + '<br/> ' +
-				date.toTimeString() + ' ' + date.toDateString() + '<br/> ' +
+				date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + '<br/> ' +
 				'RSSI : ' + lastmeasurment[i][2]+ '<br/> ' +
 				' Temp : ' + lastmeasurment[i][5]+ ' C<br/> ' +
 				' Humidity : ' + lastmeasurment[i][6]+ ' %<br/> ' +

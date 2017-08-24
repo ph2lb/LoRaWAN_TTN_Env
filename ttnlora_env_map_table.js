@@ -14,12 +14,22 @@ for(j=0; j<columns.length; j++)
        	tr.appendChild(th);	
 }
 
+var span = 3600*1000;
+var nowInMs = Date.now();
+var d = new Date();
+var offset = d.getTimezoneOffset();
+
 for (i = 0; i < lastmeasurment.length; i++) 
 { 
 	if (lastmeasurment[i][3] != '0' && lastmeasurment[i][4] != '0')
 	{
 		tr = document.createElement("tr");
     		table.appendChild(tr);
+		var date = new Date(lastmeasurment[i][1]);		// UTC
+		date.setSeconds(date.getSeconds() + offset*-60);	// UTC > Local
+		var dateInMs = date.getTime();			
+		console.log("nowInMs - dateInMs : " + nowInMs + " - " + dateInMs + " = " + (nowInMs - dateInMs));
+
 		// DevUID (with link)
     		td = document.createElement("td");
     		td.innerHTML = '<a href="./ttnlora_env_chart.php?id=' + lastmeasurment[i][0] + '">' + lastmeasurment[i][0] + '</a>';
@@ -33,8 +43,10 @@ for (i = 0; i < lastmeasurment.length; i++)
 
 		// Date
     		td = document.createElement("td");
-		var date = new Date(lastmeasurment[i][1]);
-    		td.innerHTML = date.toDateString() + ' ' + date.toTimeString();
+		if ((nowInMs - dateInMs) > span)
+    			td.innerHTML = '<font color="red">' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + ' </font>';
+		else
+    			td.innerHTML = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
     		tr.appendChild(td);
 
 		// Temp
