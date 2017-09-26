@@ -33,6 +33,7 @@
 		$filter_from = $filter_from->format("Y-m-d H:i:s");
 	}
 
+  	echo'<script src="./ttnlora_env_last_aw.php?id='.$filter_id.'" type="text/javascript"></script>';
   	echo '<script type="text/javascript">';
 	echo 'var filter_id = "' . $filter_id . '";';
 	echo 'var filter_from = "' . $filter_from . '";';
@@ -89,5 +90,30 @@
 	<!-- HTML -->
 	<div id="chartdiv"></div>
 	<script src="./ttnlora_env_chart_embedded.js"></script>
+
+
+<style>
+table {
+    font-family: Arial;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+}
+
+table td, table th {
+  padding: 5px 9px;
+  border: 1px solid #eee;
+  text-align: left;
+}
+table tr:nth-child(even) td {
+  background: #eee;
+}
+
+
+</style>
+
+	<div><h2>Last alarms and warnings</h2></div>
+	<div><i>Open and last 24 hours.</i></div>
+	<div id="awdatatable"></div>
+  	<script src="./ttnlora_env_map_table_aw.js" type="text/javascript"></script>
 </body>
 </html>

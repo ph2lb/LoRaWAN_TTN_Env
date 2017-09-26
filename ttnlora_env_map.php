@@ -28,6 +28,7 @@
 		$filter_area = $_GET["area"];
 	}
   	echo'<script src="./ttnlora_env_last.php?area='.$filter_area.'" type="text/javascript"></script>';
+  	echo'<script src="./ttnlora_env_last_aw.php?area='.$filter_area.'" type="text/javascript"></script>';
   	echo '<script>';
 	echo "var selected_area = '$filter_area';\n";
   	echo '</script>';
@@ -85,7 +86,11 @@
     <div id="cleared" style="clear:both;"></div>
   </div>
   <div>
-	<div id="datatable"></div>
+	<div><h2>Last measurements</h2></div>
+	<div id="mdatatable"></div>
+	<div><h2>Last alarms and warnings</h2></div>
+	<div><i>Open and last 24 hours.</i></div>
+	<div id="awdatatable"></div>
   </div>
   <!-- <div id="chartdivheader"> <center>Sensor X</center> </div>
   <div id="chartdiv" style="height:500px;"></div> -->
@@ -94,22 +99,24 @@
   <!--<script src="./ttnlora_env_chart_embedded.js" type="text/javascript"></script> -->
 
 <style>
-#datatable table {
+table {
     font-family: Arial;
   border: 1px solid #ccc;
   border-collapse: collapse;
 }
 
-#datatable table td, #datatable table th {
+table td, table th {
   padding: 5px 9px;
   border: 1px solid #eee;
   text-align: left;
 }
-
-#datatable table tr:nth-child(even) td {
+table tr:nth-child(even) td {
   background: #eee;
 }
+
+
 </style>
   <script src="./ttnlora_env_map_table.js" type="text/javascript"></script>
+  <script src="./ttnlora_env_map_table_aw.js" type="text/javascript"></script>
   </body>
 </html>
