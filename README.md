@@ -18,7 +18,7 @@ payloadfunction.txt > payload function example used by this system (modify js to
 
 ttnlora_env.php > TTN HTTP handler (don't forget the apikey)
 
-ttnlora_env_alarmwarning.php > php script TODO ADD INFO
+ttnlora_env_alarmwarning.php > php script to create alarms and warnings.
 
 ttnlora_env_areas.php > php script used to create array used by the area combobox
 
@@ -32,6 +32,8 @@ ttnlora_env_last.php > php script used to create array of last measurements plot
 
 ttnlora_env_last_aw.php > php script used to create array of last alarms warnings used on the map and chart
 
+ttnlora_env_mailer.php > php script to send emails when a alarm or warning is triggerd.
+
 ttnlora_env_map.php > main php file. Used to create map page with last measurements on it (click on measurement to get link to 24 
 hour chart)
 
@@ -40,6 +42,8 @@ ttnlora_env_map_code.js > js script used to create map on page
 ttnlora_env_map_table.js > js script used to last measurement table on page
 
 ttnlora_env_map_table_aw.js > js script used to last alarm warning table on page
+
+ttnlora_env_telegram.php > php script used to send bot messages when a alarm or warning is triggerd.
 
 ttnlora_env_vars.js > variables used by the variouse js scripts (MUST EDIT)
 
@@ -52,6 +56,6 @@ Installation steps :
 1. create database with db_createscript.sql
 2. add demo data with db_demodata_script.sql
 3. edit ttnlora_env_vars.js to reflect your enviroment
-4. edit ttnlora_env_vars.php to reflect your database enviroment
-5. configure TTN HTTP handler (used payload function as described in https://github.com/ph2lb/LoRaWAN_TTN_Enschede_LMIC_ABP
-
+4. edit ttnlora_env_vars.php to reflect your database enviroment and other settings
+5. configure TTN HTTP handler (used payload function as described in https://github.com/ph2lb/LoRaWAN_TTN_Env_Node
+6. when needed setup telegram bot system
