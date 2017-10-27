@@ -90,7 +90,7 @@ function hslToRgb(h, s, l) {
     {  
 	if (lastmeasurment[i][3] != '0' && lastmeasurment[i][4] != '0')
 	{
-		var temp = parseInt(lastmeasurment[i][5]);
+		var temp = Math.round(parseFloat(lastmeasurment[i][5]));
     		//console.log("temp = " + temp);
 		var colortemp = (1 / 50) * (temp + 15);	
     		//console.log("colortemp = " + colortemp);
@@ -98,7 +98,8 @@ function hslToRgb(h, s, l) {
 		if (colortemp < 0.15) colortemp = 0.15;
 		var color = hslToRgb(1 - colortemp, 1, 0.5);//"1A88AB";
     		//console.log("color = " + color);
-		var iconurl = 'http://www.googlemapsmarkers.com/v1/' + temp + '/' + color + '/';	
+		//var iconurl = 'http://www.googlemapsmarkers.com/v1/' + temp + '/' + color + '/';	
+		var iconurl = 'ttnlora_env_marker.php?t=' + temp + '&c=' + color;	
       		marker = new google.maps.Marker({
         		position: new google.maps.LatLng(lastmeasurment[i][3], lastmeasurment[i][4]),
 			icon: iconurl,

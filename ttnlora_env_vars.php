@@ -14,4 +14,14 @@
 	$password = "<ENTERYOUREDATABASEPASSWORD>";	
 	// the api key secret
 	$apikey = "<ENTERYOUREAPIKEYSECRET>";
+	// telegram botid (leave null when no telegram integration is needed)
+	$telegrambotid = "<ENTERYOURETELEGRAMBOTID>"; // or leave null;
+	// mail sender (leave null when no mail integration is needed)
+	$mailfrom = "<ENTERYOURESENDEREMAILADRESS>"; // or leave null;
+	// mail host
+ 	$mailhost = "<ENTERYOURESENDERMAILHOST>";
+	// username for mail auth
+ 	$mailusername = "<ENTERYOUREAUTHUSERNAME>";
+	// password for mail auth
+ 	$mailpassword = "<ENTERYOUREAUTHPASSWORD>";
 ?>

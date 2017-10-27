@@ -51,28 +51,27 @@ $pressure = "NULL";
 function getData($parent,$arr)
 {
 	global $dev_id,$batt,$humidity,$pressure,$time,$temperature,$rssi,$ldr,$framecounter,$packetcounter,$txresult,$txretrycount;
+	//echo "parent = $parent > ";
 	foreach($arr as $key => $value)
 	{
 		if (is_numeric($value))
 		{
-			if ($parent == "payload_fields")
-			{
-				switch($key) {
-					case "batt" : $batt = $value; break;
-					case "rssi" : $rssi = $value; break;
-					case "humidity" : $humidity = $value; break;
-					case "pressure" : $pressure = $value; break;
-					case "temperature": $temperature = $value; break;
-					case "pkcount": $packetcounter = $value; break;
-					case "txresult": $txresult = $value; break;
-					case "txretrycount": $txretrycount = $value; break;
-				}
-			}
-			else	
-			{
-				switch($key) {
-					case "counter": $framecounter = $value; break;
-				}
+			//echo "0.key = $key\n";
+			switch($key) {
+				case "batt" : $batt = $value; break;
+				case "humidity" : $humidity = $value; break;
+				case "pressure" : $pressure = $value; break;
+				case "temperature": $temperature = $value; break;
+				case "pkcount": $packetcounter = $value; break;
+				case "txresult": $txresult = $value; break;
+				case "txretrycount": $txretrycount = $value; break;
+				case "rssi" : 
+					if ($rssi == "NULL") 
+						$rssi = $value; 
+					else if ($value > $rssi)
+						$rssi = $value; 
+					break;
+				case "counter": $framecounter = $value; break;
 			}
 		}
 		else if (is_array($value))
@@ -98,7 +97,6 @@ function getData($parent,$arr)
 				switch($key) {
 					case "dev_id" : $dev_id = $value; break;
 					case "app_id" : $app_id = $value; break;
-					case "rssi" : $rssi = $value; break;
 				}
 			}
 		} 
@@ -119,13 +117,13 @@ if ($time != "NULL" && $dev_id != "NULL")
 	if ($conn->query($sql) === TRUE) 
 	{
 		echo "New record created successfully\n";
-		error_log("Now checking for alarms and warnings");
+		//error_log("Now checking for alarms and warnings");
 		checkForAlarmWarning( $dev_id, $time, $rssi, $temperature, $humidity, $pressure, $batt );
-		error_log("Done checking for alarms and warnings");
+		//error_log("Done checking for alarms and warnings");
 	} 
 	else 
 	{
-		echo "Error: " . $sql . "<br>" . $conn->error;
+    		error_log('Invalid query: ' .$sql. ' ' . $conn->error);
 	}
 }
 else

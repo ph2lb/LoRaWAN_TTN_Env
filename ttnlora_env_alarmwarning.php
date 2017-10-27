@@ -1,6 +1,33 @@
 <?php
 
+// needed for sendEmail
+include './ttnlora_env_mailer.php';
+include './ttnlora_env_telegram.php';
+
 // needs global $conn
+
+function levelToStr($level)
+{
+	// Alarm=0, Warning=1
+	if ($level == 0) return "Alarm";
+	else if ($level == 1) return "Warning";
+	return "Uknown";
+}
+function typeToStr($type)
+{
+	// Temp=0, Humidty=1, Pressure=2, Batt=3, RSSI=4
+	if ($type == 0) return "TempLower";
+	else if ($type == 1) return "TempUpper";
+	else if ($type == 2) return "HumidityLower";
+	else if ($type == 3) return "HumidityUpper";
+	else if ($type == 4) return "PressureLower";
+	else if ($type == 5) return "PressureUpper";
+	else if ($type == 6) return "BattLower";
+	else if ($type == 7) return "BattUpper";
+	else if ($type == 8) return "RSSILower";
+	else if ($type == 9) return "RSSIUpper";
+	return "Uknown";
+}
 
 function unitToType($unit)
 {
@@ -21,7 +48,42 @@ function unitToType($unit)
 	return $type;
 }
 
-function handleAlarmWarning($dev_id, $level, $type, $value, $raise, $time)
+function sendAlarmWarning($dev_id, $level, $type, $value, $raise, $timestamputcstart, $timestamputcend, $action)
+{
+	// choice you're tool
+	global $mailfrom;
+	global $telegrambotid;
+
+	$typeStr = typeToStr($type);
+	$levelStr = levelToStr($level);
+		
+	if ($raise)
+	{
+		$subject = "$dev_id : New $levelStr of type $typeStr";	
+		$body = "For node $dev_id on $timestamputcstart a $levelStr of type $typeStr was raised for the value of $value.";
+	}
+	else
+	{
+		$subject = "$dev_id : End of $levelStr of type $typeStr";
+		$body = "For node $dev_id the $levelStr of type $typeStr raised on $timestamputcstart was ended on $timestamputcend for the value of $value.";
+	}
+
+	if ($mailfrom != null)
+	{
+		// send email
+		// TODO change $to from DB -> rip apart $action
+		sendEmail('lexbolkesteijn@gmail.com', $subject, $body);
+	}
+
+	if ($telegrambotid != null)
+	{
+		// send telegram message (299412663 = lex)
+		// TODO change $chatid from DB -> rip apart $action
+		sendTelegramMessage('299412663', 'ENV', $body);
+	}
+}
+
+function handleAlarmWarning($dev_id, $level, $type, $value, $raise, $time, $action)
 {
 	// check if there is a open alarm for this kind of unit
 	global $conn;
@@ -51,6 +113,8 @@ function handleAlarmWarning($dev_id, $level, $type, $value, $raise, $time)
 				//echo "SQL > $sql\n";
 				if ($conn->query($sql) === TRUE) {
     					echo "Record updated successfully\n";
+					// TODO : send notification
+					sendAlarmWarning($dev_id, $level, $type, $value, $raise, $timestamputcstart, $time, $action);
 				} else {
     					error_log("Error updating record: " . $conn->error);
 				}
@@ -70,6 +134,8 @@ function handleAlarmWarning($dev_id, $level, $type, $value, $raise, $time)
 				
 			if ($conn->query($sql) === TRUE) {
 				echo "New record created successfully\n";
+				// TODO : send email
+				sendAlarmWarning($dev_id, $level, $type, $value, $raise, $time, NULL, $action);
 			} else {
 				error_log("Error: " . $sql . "<br>" . $conn->error);
 			}
@@ -77,7 +143,7 @@ function handleAlarmWarning($dev_id, $level, $type, $value, $raise, $time)
 	}
 }
 
-function checkLimits($dev_id, $level, $unit, $time, $value, $lowerLimit, $upperLimit)
+function checkLimits($dev_id, $level, $unit, $time, $value, $lowerLimit, $upperLimit, $action)
 {
 	global $conn;
 	if (!empty($lowerLimit))
@@ -86,7 +152,7 @@ function checkLimits($dev_id, $level, $unit, $time, $value, $lowerLimit, $upperL
 		$result = ($value <= $lowerLimit);
 		$resultstr = $result ? 'true' : 'false';
 		echo "$resultstr\n";
-		handleAlarmWarning($dev_id, $level, unitToType($unit . 'Lower'), $value, $result, $time);
+		handleAlarmWarning($dev_id, $level, unitToType($unit . 'Lower'), $value, $result, $time, $action);
 	}
 
 	if (!empty($upperLimit))
@@ -95,7 +161,7 @@ function checkLimits($dev_id, $level, $unit, $time, $value, $lowerLimit, $upperL
 		$result = ($value >= $upperLimit);
 		$resultstr = $result ? 'true' : 'false';
 		echo "$resultstr\n";
-		handleAlarmWarning($dev_id, $level, unitToType($unit . 'Upper'), $value, $result, $time);
+		handleAlarmWarning($dev_id, $level, unitToType($unit . 'Upper'), $value, $result, $time, $action);
 	}
 }
 
@@ -149,11 +215,11 @@ WHERE DevID = '$dev_id'";
 			echo "action:$action\n";
 			echo "------< Result >------\n";
 			
-			checkLimits($dev_id, $level, "Temp", $time, $temp, $templow, $temphigh);
-			checkLimits($dev_id, $level, "Humidity", $time, $humidity, $humlow, $humhigh);
-			checkLimits($dev_id, $level, "Pressure", $time, $pressure, $presslow, $presshigh);
-			checkLimits($dev_id, $level, "Batt", $time, $batt, $battlow, $batthigh);
-			checkLimits($dev_id, $level, "RSSI", $time, $rssi, $rssilow, $rssihigh);
+			checkLimits($dev_id, $level, "Temp", $time, $temp, $templow, $temphigh, $action);
+			checkLimits($dev_id, $level, "Humidity", $time, $humidity, $humlow, $humhigh, $action);
+			checkLimits($dev_id, $level, "Pressure", $time, $pressure, $presslow, $presshigh, $action);
+			checkLimits($dev_id, $level, "Batt", $time, $batt, $battlow, $batthigh, $action);
+			checkLimits($dev_id, $level, "RSSI", $time, $rssi, $rssilow, $rssihigh, $action);
 
 			echo "------< End >------\n";
     		}
