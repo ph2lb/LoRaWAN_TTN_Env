@@ -106,7 +106,7 @@ function getData($parent,$arr)
 $my_arr = json_decode($content);
 getData("", $my_arr);
 
-if ($pressure > 1030)
+if ($pressure > 1100)
 	$pressure = 'NULL';
 
 if ($time != "NULL" && $dev_id != "NULL")

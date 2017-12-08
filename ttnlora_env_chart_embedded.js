@@ -162,6 +162,7 @@ var chart = AmCharts.makeChart("chartdiv", {
     "categoryField": "time",
     "categoryAxis": {
         //"parseDates": true,
+        //"equalSpacing": false,
 	"minPeriod": "DD",
         "axisColor": "#DADADA",
 	"labelFrequency": 10,

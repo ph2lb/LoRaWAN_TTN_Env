@@ -86,6 +86,9 @@ function hslToRgb(h, s, l) {
     var d = new Date();
     var offset = d.getTimezoneOffset();
 
+    var span = 3600*1000;
+    var nowInMs = Date.now();
+
     for (i = 0; i < lastmeasurment.length; i++) 
     {  
 	if (lastmeasurment[i][3] != '0' && lastmeasurment[i][4] != '0')
@@ -97,6 +100,13 @@ function hslToRgb(h, s, l) {
 		if (colortemp > 1) colortemp = 1;
 		if (colortemp < 0.15) colortemp = 0.15;
 		var color = hslToRgb(1 - colortemp, 1, 0.5);//"1A88AB";
+
+                var date = new Date(lastmeasurment[i][1]);              // UTC
+                date.setSeconds(date.getSeconds() + offset*-60);        // UTC > Local
+                var dateInMs = date.getTime();
+		if ((nowInMs - dateInMs) > span)
+			color = "000000";
+
     		//console.log("color = " + color);
 		//var iconurl = 'http://www.googlemapsmarkers.com/v1/' + temp + '/' + color + '/';	
 		var iconurl = 'ttnlora_env_marker.php?t=' + temp + '&c=' + color;	
@@ -162,4 +172,13 @@ function hslToRgb(h, s, l) {
         div.innerHTML = "<small>" + temp + "</small>";
         document.getElementById("colormap").appendChild(div);
     }
+
+    var div = document.createElement("div");
+    div.style.width = "50px";
+    div.style.height = "13px";
+    div.style.background = "black"
+    div.style.color = "red";
+    div.innerHTML = "<small>defunc</small>";
+    document.getElementById("colormap").appendChild(div);
+
 

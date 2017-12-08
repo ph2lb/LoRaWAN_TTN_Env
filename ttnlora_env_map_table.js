@@ -85,7 +85,10 @@ for (i = 0; i < lastmeasurment.length; i++)
 	
 		// Description
     		td = document.createElement("td");
-    		td.innerHTML = lastmeasurment[i][10];
+		if ((nowInMs - dateInMs) > span)
+    			td.innerHTML = '<font color="red">' + lastmeasurment[i][10] + ' DEFUNC!!!!</font>' 
+		else
+    			td.innerHTML = lastmeasurment[i][10];
     		tr.appendChild(td);
 	
 	}

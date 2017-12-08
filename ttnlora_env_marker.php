@@ -7,6 +7,10 @@
     $IMG = imagecreate( 30, 30 );
     $background = imagecolorallocate($IMG, 255,255,255);
     $text_color = imagecolorallocate($IMG, 0,0,0); 
+
+    if ($color == '000000')
+    	$text_color = imagecolorallocate($IMG, 255,0,0); 
+
     $dot_color = imagecolorallocate($IMG, $fillcolor[0],$fillcolor[1],$fillcolor[2]);
 
     imagecolortransparent ( $IMG, $background );
