@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 26, 2017 at 10:36 AM
--- Server version: 5.7.19-0ubuntu0.16.04.1
+-- Generation Time: Dec 08, 2017 at 02:11 PM
+-- Server version: 5.7.20-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -117,6 +117,18 @@ CREATE TABLE `Area` (
   `TimestampUTC` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+--
+-- Dumping data for table `Area`
+--
+
+INSERT INTO `Area` (`AreaID`, `Longitude`, `Latitude`, `Description`, `TimestampUTC`) VALUES
+('Almelo', 6.66849, 52.367, 'Regio Almelo', '2017-07-09 20:57:11'),
+('Borne', 6.75373, 52.3002, 'Regio Borne', '2017-07-09 20:59:00'),
+('Demo', 6.66849, 52.367, 'Demo area', '2017-09-26 00:00:00'),
+('Enschede', 6.89366, 52.2215, 'Regio Enschede', '2017-07-09 20:59:00'),
+('Hengelo (OV)', 6.79277, 52.2574, 'Regio Hengelo', '2017-07-09 20:57:11'),
+('Maarsen', 5.0171, 52.1319, 'Regio Maarsen', '2017-11-04 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -130,7 +142,7 @@ CREATE TABLE `Measurement` (
   `Humidity` float DEFAULT NULL COMMENT 'Humidity (%)',
   `Pressure` float DEFAULT NULL COMMENT 'Air pressure (mBar)',
   `Batt` float DEFAULT NULL COMMENT 'Battery voltage (V)',
-  `RSSI` int(11) NOT NULL COMMENT 'RSSI of the signal',
+  `RSSI` int(11) DEFAULT NULL COMMENT 'RSSI of the signal',
   `Raw` text COLLATE utf8_bin
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
