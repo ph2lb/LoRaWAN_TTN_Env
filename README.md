@@ -26,7 +26,9 @@ ttnlora_env_chart.php > php script used to create chart page with 24 hour data o
 
 ttnlora_env_chart_embedded.js > js script used to create chart on page
 
-ttnlora_env_chartdata.php > php script to get 24 hour data dataset for chart page.
+ttnlora_env_chartdata.php > php script to get 24 hour data dataset for chart page. but can be used to get clean data for a deviceid and for a periode (add ?id=<you're deviceid>&from=YYYY-MM-DD%20HH:mm:ss&to=YYYY-MM-DD%20HH:mm:ss)
+
+ttnlora_env_chartdata.php > php script to get 24 hour raw data dataset. but can be used to get raw data for a deviceid and for a periode (add ?id=<you're deviceid>&from=YYYY-MM-DD%20HH:mm:ss&to=YYYY-MM-DD%20HH:mm:ss)
 
 ttnlora_env_last.php > php script used to create array of last measurements plotted on the map.
 
