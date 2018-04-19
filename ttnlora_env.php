@@ -112,6 +112,16 @@ if ($pressure > 1100)
 if ($time != "NULL" && $dev_id != "NULL")
 {
 	$time = str_replace("Z", "", $time);
+	
+	$time = $conn->real_escape_string($time);
+        $dev_id = $conn->real_escape_string($dev_id);
+        $temperature = $conn->real_escape_string($temperature);
+        $humidity = $conn->real_escape_string($humidity);
+        $pressure = $conn->real_escape_string($pressure);
+        $batt = $conn->real_escape_string($batt);
+        $rssi = $conn->real_escape_string($rssi);
+        $content = $conn->real_escape_string($content);
+
 	$sql = "INSERT INTO Measurement (TimestampUTC, DevID, Temperature, Humidity, Pressure, Batt, RSSI, Raw) VALUES ('$time', '$dev_id', $temperature, $humidity, $pressure, $batt, $rssi, '$content')";
 	
 	if ($conn->query($sql) === TRUE) 
